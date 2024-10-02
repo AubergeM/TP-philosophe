@@ -36,25 +36,38 @@ public class Philosopher extends Thread {
                 // Aléatoirement prendre la baguette de gauche puis de droite ou l'inverse
                 switch(new Random().nextInt(2)) {
                     case 0:
-                        myLeftStick.take();
-                        think(); // pour augmenter la probabilité d'interblocage
-                        myRightStick.take();
+                        takeAllStick(myLeftStick,myRightStick);
                         break;
                     case 1:
-                        myRightStick.take();
-                        think(); // pour augmenter la probabilité d'interblocage
-                        myLeftStick.take();
+                        takeAllStick(myRightStick,myLeftStick);
                 }
-                // Si on arrive ici, on a pu "take" les 2 baguettes
-                eat();
-                // On libère les baguettes :
-                myLeftStick.release();
-                myRightStick.release();
-                // try again
             } catch (InterruptedException ex) {
                 Logger.getLogger("Table").log(Level.SEVERE, "{0} Interrupted", this.getName());
             }
         }
+    }
+
+    public void takeAllStick(ChopStick c1,ChopStick c2) throws InterruptedException {
+        if (c1.isiAmFree()) {
+            c1.take();
+            if (c2.isiAmFree()) {
+                End(c2,c1);
+            } else {
+                think();
+                if (c2.isiAmFree()) {
+                    End(c2,c1);
+                } else {
+                    c2.release();
+                }
+            }
+        }
+    }
+
+    public void End(ChopStick c1,ChopStick c2) throws InterruptedException {
+        c1.take();
+        eat();
+        c1.release();
+        c2.release();
     }
 
     // Permet d'interrompre le philosophe "proprement" :

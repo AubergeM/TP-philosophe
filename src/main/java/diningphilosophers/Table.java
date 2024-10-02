@@ -20,3 +20,9 @@ public class Table {
         rb.leaveTable();
     }
 }
+
+//Réponses aux questions:
+// Combien y a-t-il donc de baguettes ?  : Il y a 3 baguettes
+// Question 1 : L'utilisation des blocs synchronisés et des fonctions wait() et notifyAll()
+// c'est pour vérifier que les philosophes attendent que les baguettes soient prises et qu'il soient notifiés quand les baguettes sont libérées. 
+// Question 2 : C'est un deadlock, il apparaît car chaque philosophe attend que l'un relâche la baguette que lui-même tient. 
